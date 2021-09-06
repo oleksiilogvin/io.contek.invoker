@@ -1,6 +1,5 @@
 package io.contek.invoker.commons.rest;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.escape.Escaper;
 import com.google.common.escape.Escapers;
@@ -11,7 +10,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static java.util.stream.Collectors.joining;
@@ -118,7 +116,7 @@ public final class RestParams {
       if (sort) {
         return new RestParams(ImmutableSortedMap.copyOf(values));
       }
-      return new RestParams(ImmutableMap.copyOf(values));
+      return new RestParams(values);
     }
   }
 }
