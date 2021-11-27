@@ -14,6 +14,7 @@ public final class MarketWebSocketApi extends WebSocketApi {
   private final Map<OrderBookChannel.Id, OrderBookChannel> orderBookChannels = new HashMap<>();
   private final Map<TickerChannel.Id, TickerChannel> tickerChannels = new HashMap<>();
   private final Map<TradesChannel.Id, TradesChannel> tradesChannels = new HashMap<>();
+  private final Map<MarketsChannel.Id, MarketsChannel> marketsChannels = new HashMap<>();
 
   public MarketWebSocketApi(IActor actor, WebSocketContext context) {
     super(actor, context);
@@ -49,6 +50,18 @@ public final class MarketWebSocketApi extends WebSocketApi {
           id,
           k -> {
             TradesChannel result = new TradesChannel(k);
+            attach(result);
+            return result;
+          });
+    }
+  }
+
+  public MarketsChannel getMarketsChannel(MarketsChannel.Id id) {
+    synchronized (marketsChannels) {
+      return marketsChannels.computeIfAbsent(
+          id,
+          k -> {
+            MarketsChannel result = new MarketsChannel(k);
             attach(result);
             return result;
           });

@@ -8,6 +8,7 @@ import io.contek.invoker.commons.websocket.IWebSocketMessageParser;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInboundMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketInfoMessage;
 import io.contek.invoker.ftx.api.websocket.common.WebSocketSubscriptionResponse;
+import io.contek.invoker.ftx.api.websocket.market.MarketsChannel;
 import io.contek.invoker.ftx.api.websocket.market.OrderBookChannel;
 import io.contek.invoker.ftx.api.websocket.market.TickerChannel;
 import io.contek.invoker.ftx.api.websocket.market.TradesChannel;
@@ -15,8 +16,19 @@ import io.contek.invoker.ftx.api.websocket.user.OrdersChannel;
 
 import javax.annotation.concurrent.Immutable;
 
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys.*;
-import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys.*;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._channel;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._markets;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orderbook;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._orders;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._ticker;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketChannelKeys._trades;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._error;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._info;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._partial;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._subscribed;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._type;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._unsubscribed;
+import static io.contek.invoker.ftx.api.websocket.common.constants.WebSocketInboundKeys._update;
 
 @Immutable
 final class WebSocketMessageParser implements IWebSocketMessageParser {
@@ -69,6 +81,8 @@ final class WebSocketMessageParser implements IWebSocketMessageParser {
         return gson.fromJson(obj, TickerChannel.Message.class);
       case _orders:
         return gson.fromJson(obj, OrdersChannel.Message.class);
+      case _markets:
+        return gson.fromJson(obj, MarketsChannel.Message.class);
       default:
         throw new IllegalArgumentException(obj.toString());
     }
